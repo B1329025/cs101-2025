@@ -12,7 +12,6 @@ class board {
             a[i]=k++;
         }
     }
-    
     void print_board(){
         int k =0;
         for(int i=0;i<3;i++){
@@ -35,7 +34,6 @@ class board {
         a[n-1]=c;
         print_board();
     }
-    
     bool win_lose(char c){
         int k=0;
         for(int i=0;i<3;i++){
@@ -57,8 +55,6 @@ class board {
         }
         else return false;
     }
-  
-    
 };
 
 class tic {
@@ -101,8 +97,6 @@ class tic {
                 cout<<"draw :(";
             }
         }
-    
-        
 };
 int main()
 {   
