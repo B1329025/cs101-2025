@@ -1,6 +1,7 @@
 using namespace std;
 #include <iostream>
 #include <limits>
+#include<stdio.h>
 
 class board {
   private:
@@ -14,13 +15,11 @@ class board {
     }
     void print_board(){
         int k =0;
-        for(int i=0;i<3;i++){
-            for(int j=0;j<3;j++){
-                cout<<a[k+j]<<" ";
-            }
-            k+=3;
-            cout<<endl;
-        } 
+        printf(" %c | %c | %c \n",a[0],a[1],a[2]);
+        printf("---+---+---\n");
+        printf(" %c | %c | %c \n",a[3],a[4],a[5]);
+        printf("---+---+---\n");
+        printf(" %c | %c | %c \n",a[6],a[7],a[8]);
     }
     bool check(int n){
         if(1>n || n>9 || a[n-1]=='X' || a[n-1]=='O'){
@@ -63,23 +62,28 @@ class tic {
     public:
         int player=0;
         int n, rounds = 0;
+        int players=1;
         char symbol ;
         void start(){
+            printf("-- Tic Tac Toe -- CSIE@CGU\n");
+            printf("Player 1 (X) - Player 2 (O)\n");
             board_2.print_board();
             while(rounds!=9){
                 if(player%2==0){
-                    symbol ='O';
+                    symbol ='X';
+                    players =1;
                 }
                 else{
-                    symbol='X';
+                    symbol='O';
+                    players =2 ;
                 }
                 while(true){
-                    cout<<"player "<<player%2<<" enter 1~9 ";
+                    printf("==> Player %d (%c), enter a number:",players,symbol);
                     cin>>n;
                     if(cin.fail() || board_2.check(n) ){
                         cin.clear();
                         cin.ignore(numeric_limits<streamsize>::max(),'\n');
-                        cout<<"try again ,player "<<player%2<<"! ";
+                        printf("==> Invalid value, please enter again\n");
                     }
                     else{
                         rounds++;
@@ -88,13 +92,13 @@ class tic {
                 } 
                 board_2.move(n,symbol);
                 if(board_2.win_lose(symbol)){
-                    cout<<"player "<<player%2<<" win!"<<endl;
+                    printf("==> Player %d wins!\n",players);
                     break;
                 }
                 player++;
             }
             if(!board_2.win_lose(symbol)){
-                cout<<"draw :(";
+                cout<<"==> Game draw\n";
             }
         }
 };
