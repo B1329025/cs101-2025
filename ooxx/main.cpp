@@ -1,6 +1,6 @@
 using namespace std;
 #include <iostream>
-
+#include <limits>
 
 class board {
   private:
@@ -23,8 +23,8 @@ class board {
             cout<<endl;
         } 
     }
-    bool check(int n,char c){
-        if(1<=n && n<=9 && a[n-1]!='X'&&a[n-1]!='O'){
+    bool check(int n){
+        if(1>n || n>9 || a[n-1]=='X' || a[n-1]=='O'){
             return true;
         }
         else{
@@ -32,9 +32,7 @@ class board {
         }
     }
     void move(int n ,char c ){
-        if(check(n,c)){
-            a[n-1]=c;
-        }
+        a[n-1]=c;
         print_board();
     }
     
@@ -79,19 +77,18 @@ class tic {
                 else{
                     symbol='X';
                 }
-                cout<<"player "<<player%2<<" enter 1~9 ";
-                cin>>n;
                 while(true){
-                   if(board_2.check(n,symbol)){
-                       rounds++;
-                       break;
-                   }
-                   else{
-                       cin.clear();
-                       cin.ignore();
-                       cout<<"try again ,player "<<player%2<<"! ";
-                       cin>>n;
-                   }
+                    cout<<"player "<<player%2<<" enter 1~9 ";
+                    cin>>n;
+                    if(cin.fail() || board_2.check(n) ){
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cout<<"try again ,player "<<player%2<<"! ";
+                    }
+                    else{
+                        rounds++;
+                        break;
+                    }
                 } 
                 board_2.move(n,symbol);
                 if(board_2.win_lose(symbol)){
