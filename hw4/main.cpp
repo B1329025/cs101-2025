@@ -1,6 +1,6 @@
 using namespace std;
 #include <iostream>
-
+#include <limits>
 
 class board {
   private:
@@ -12,7 +12,6 @@ class board {
             a[i]=k++;
         }
     }
-    
     void print_board(){
         int k =0;
         for(int i=0;i<3;i++){
@@ -23,8 +22,8 @@ class board {
             cout<<endl;
         } 
     }
-    bool check(int n,char c){
-        if(1<=n && n<=9 && a[n-1]!='X'&&a[n-1]!='O'){
+    bool check(int n){
+        if(1>n || n>9 || a[n-1]=='X' || a[n-1]=='O'){
             return true;
         }
         else{
@@ -32,12 +31,9 @@ class board {
         }
     }
     void move(int n ,char c ){
-        if(check(n,c)){
-            a[n-1]=c;
-        }
+        a[n-1]=c;
         print_board();
     }
-    
     bool win_lose(char c){
         int k=0;
         for(int i=0;i<3;i++){
@@ -59,8 +55,6 @@ class board {
         }
         else return false;
     }
-  
-    
 };
 
 class tic {
@@ -68,7 +62,7 @@ class tic {
         board board_2;
     public:
         int player=0;
-        int n, rounds = 1;
+        int n, rounds = 0;
         char symbol ;
         void start(){
             board_2.print_board();
@@ -79,17 +73,18 @@ class tic {
                 else{
                     symbol='X';
                 }
-                cout<<"player "<<player%2<<" enter 1~9"<<endl;
-                cin>>n;
                 while(true){
-                   if(board_2.check(n,symbol)){
-                       rounds++;
-                       break;
-                   }
-                   else{
-                       cout<<"try again !"<<endl;
-                       cin>>n;
-                   }
+                    cout<<"player "<<player%2<<" enter 1~9 ";
+                    cin>>n;
+                    if(cin.fail() || board_2.check(n) ){
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cout<<"try again ,player "<<player%2<<"! ";
+                    }
+                    else{
+                        rounds++;
+                        break;
+                    }
                 } 
                 board_2.move(n,symbol);
                 if(board_2.win_lose(symbol)){
@@ -102,12 +97,9 @@ class tic {
                 cout<<"draw :(";
             }
         }
-    
-        
 };
 int main()
 {   
    tic tic_1;
    tic_1.start();
-    
 }
