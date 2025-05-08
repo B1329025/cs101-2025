@@ -87,6 +87,8 @@ class tic {
                        break;
                    }
                    else{
+                       cin.clear();
+                       cin.ignore();
                        cout<<"try again ,player "<<player%2<<"! ";
                        cin>>n;
                    }
@@ -109,5 +111,4 @@ int main()
 {   
    tic tic_1;
    tic_1.start();
-    
 }
